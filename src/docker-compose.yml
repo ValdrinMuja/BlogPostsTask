@@ -1,0 +1,16 @@
+version: '3.4'
+
+services:
+  db:
+    image: postgres:latest
+
+  api:
+    image: ${DOCKER_REGISTRY-}api
+    build:
+      context: .
+      dockerfile: API/Dockerfile
+
+networks:
+  server-network:
+    # external: true
+    driver: bridge

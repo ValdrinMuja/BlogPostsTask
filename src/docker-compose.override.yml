@@ -1,0 +1,28 @@
+version: '3.4'
+
+services:
+  db:
+    container_name: db
+    user: root
+    environment: 
+      - POSTGRES_USER=postgresb
+      - POSTGRES_PASSWORD=p8B73433o2iW2s
+      - POSTGRES_DB=BlogPostsDB
+    restart: unless-stopped
+    networks:
+      - server-network
+    ports:
+      - '5432:5432'
+
+  api:
+    container_name: API
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__ConnectionString=Host=db;Port=5432;Database=BlogPostsDB;Username=postgresb;Password=p8B73433o2iW2s
+    ports:
+      - "8000:8080"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+    networks:
+      - server-network
