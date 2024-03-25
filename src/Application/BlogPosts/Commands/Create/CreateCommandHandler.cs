@@ -5,7 +5,7 @@ using Domain.Users;
 
 namespace Application.BlogPosts.Commands.Create
 {
-    internal sealed class CreateCommandHandler : ICommandHandler<CreateCommand, BlogPost>
+    public sealed class CreateCommandHandler : ICommandHandler<CreateCommand, BlogPost>
     {
         private readonly IBlogPostRepository _blogPostRepository;
         private readonly ICurrentUserService _currentUserService;

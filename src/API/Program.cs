@@ -89,6 +89,7 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("CreatePost", policy => policy.RequireRole("Admin"));
     options.AddPolicy("UpdatePost", policy => policy.RequireRole("Admin"));
     options.AddPolicy("DeletePost", policy => policy.RequireRole("Admin"));
+    options.AddPolicy("ImportPost", policy => policy.RequireRole("Admin"));
 });
 
 builder.Services

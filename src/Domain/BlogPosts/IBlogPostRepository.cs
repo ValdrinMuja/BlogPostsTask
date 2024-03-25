@@ -15,5 +15,6 @@ namespace Domain.BlogPosts
         Task CreateAsync(BlogPost blogPost, CancellationToken cancellationToken = default);
         Task UpdateAsync(BlogPost blogPost, CancellationToken cancellationToken = default);
         Task DeleteAsync(BlogPost blogPost, CancellationToken cancellationToken = default);
+        Task AddRangeAsync(List<BlogPost> blogPosts, CancellationToken cancellationToken=default);
     }
 }

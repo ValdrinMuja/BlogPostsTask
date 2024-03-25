@@ -1,5 +1,8 @@
 ﻿using Application.Abstractions;
+using Hangfire;
+using Hangfire.PostgreSql;
 using Infrastructure.Authentication;
+using Infrastructure.Hangfire;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -17,6 +20,15 @@ namespace Infrastructure
             services.AddScoped<IJwtProvider, JwtProvider>();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
+
+            services.AddHangfire(config => 
+            {
+                var cn = configuration.GetConnectionString("ConnectionString");
+                config.UsePostgreSqlStorage(cn);
+                config.UseMediatR();
+            });
+
+            services.AddHangfireServer();
 
             return services;
         }

@@ -2,8 +2,10 @@
 using Application.BlogPosts;
 using Application.BlogPosts.Commands.Create;
 using Application.BlogPosts.Commands.Delete;
+using Application.BlogPosts.Commands.Import;
 using Application.BlogPosts.Commands.Update;
 using Application.BlogPosts.Queries.GetAll;
+using Infrastructure.Hangfire;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -13,9 +15,11 @@ namespace API.Controllers
 {
     public class BlogPostController : ApiController
     {
-        public BlogPostController(ISender sender)
+        private readonly ICurrentUserService _currentUserService;
+        public BlogPostController(ISender sender, ICurrentUserService currentUserService)
          : base(sender)
         {
+            _currentUserService = currentUserService;
         }
 
         [Authorize(Policy = "ViewAll")]
@@ -75,6 +79,19 @@ namespace API.Controllers
             }
 
             return Ok(result.Value);
+        }
+
+        [Authorize(Policy = "ImportPost")]
+        [HttpPost("import")]
+        public async Task<IActionResult> ImportBlogPosts([FromBody] ImportRequest request, CancellationToken cancellationToken)
+        {
+            //TODO: 
+            string userId = _currentUserService.UserId;
+            ImportCommand command= request.Adapt<ImportCommand>();
+            var updatedCommand = command with { UserId = userId };
+            _sender.Enqueue(updatedCommand, cancellationToken);
+
+            return Ok();
         }
     }
 }

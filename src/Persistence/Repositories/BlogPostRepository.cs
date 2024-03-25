@@ -28,6 +28,14 @@ namespace Persistence.Repositories
             await _dataContext.SaveChangesAsync(cancellationToken);
         }
 
+        public async Task AddRangeAsync(List<BlogPost> blogPosts, CancellationToken cancellationToken = default)
+        {
+            await _dataContext.BlogPosts
+                .AddRangeAsync(blogPosts, cancellationToken);
+
+            await _dataContext.SaveChangesAsync(cancellationToken);
+        }
+
         public async Task DeleteAsync(BlogPost blogPost, CancellationToken cancellationToken = default)
         {
             await Task.FromResult(_dataContext.BlogPosts.Remove(blogPost));

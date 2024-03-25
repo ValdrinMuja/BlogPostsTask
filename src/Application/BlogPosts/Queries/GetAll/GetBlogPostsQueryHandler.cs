@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.BlogPosts.Queries.GetAll
 {
-    internal sealed class GetBlogPostsQueryHandler : IQueryHandler<GetBlogPostsQuery, PagedList<BlogPost>>
+    public sealed class GetBlogPostsQueryHandler : IQueryHandler<GetBlogPostsQuery, PagedList<BlogPost>>
     {
         private readonly IBlogPostRepository _blogPostRepository;
 
